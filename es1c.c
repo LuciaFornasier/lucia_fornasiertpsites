@@ -11,7 +11,7 @@ int main(void) {
     if (!ritorno) {
 
         for (int i=1;i<=5;i++) {
-            sleep(1);j
+            sleep(1);
             fprintf(stdout, "%d\n", i);
         }
         exit(42);

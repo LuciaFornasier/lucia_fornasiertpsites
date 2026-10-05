@@ -6,11 +6,13 @@
 int main(void) {
     pid_t ritorno = fork();
     int n;
+
     if (ritorno == -1) {
         perror("Errore nel fork");
         exit(-1);
     }
     if (!ritorno) {
+        int risultato;
         printf("Scrivi un numero");
         scanf("%d", &n);
         int primo = 1;
@@ -23,14 +25,29 @@ int main(void) {
             }
         }
         if (primo)
-            printf("%d è primo\n", n);
+            risultato = 1;
         else if (n%2 == 0) {
-            printf("%d è pari\n", n);
+            risultato = 2;
         }else {
-            printf("%d è dispari\n", n);
+            risultato=3;
         }
-        exit(42);
+        exit(risultato);
     }
-    wait(NULL);
+    int status;
+    pid_t child= wait(&status);
+    if (WIFEXITED (status)) {
+        int risultato= WEXITSTATUS (status);
+        if (risultato==1)
+            printf("è primo\n");
+        else if (risultato==2) {
+            printf("è pari\n");
+        }else if (risultato==3) {
+            printf("è dispari\n");
+        }else
+            printf("Errore");
+    }
+    else
+        printf("Figlio uscito in modo anomalo");
+
     printf("Finito\n");
 }

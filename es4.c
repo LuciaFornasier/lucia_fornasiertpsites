@@ -6,13 +6,12 @@
 int main(void) {
     pid_t ritorno = fork();
     int n;
-
     if (ritorno == -1) {
         perror("Errore nel fork");
         exit(-1);
     }
     if (!ritorno) {
-        int risultato;
+        int status;
         printf("Scrivi un numero");
         scanf("%d", &n);
         int primo = 1;
@@ -25,13 +24,13 @@ int main(void) {
             }
         }
         if (primo)
-            risultato = 1;
+            status = 1;
         else if (n%2 == 0) {
-            risultato = 2;
+            status = 2;
         }else {
-            risultato=3;
+            status=3;
         }
-        exit(risultato);
+        exit(status);
     }
     int status;
     pid_t child= wait(&status);
